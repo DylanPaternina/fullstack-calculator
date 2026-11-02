@@ -2,6 +2,22 @@
 
 A classic calculator built for a Software Engineer Intern assessment. React builds and edits an expression; Go alone parses and evaluates it. Supports `+`, `-`, `*`, `/`, `^`, `sqrt(...)`, contextual `%`, parentheses, decimals, unary signs, and whitespace.
 
+## Repository and version history
+
+Source: [DylanPaternina/fullstack-calculator](https://github.com/DylanPaternina/fullstack-calculator).
+
+| Milestone | Commit | Contents |
+| --- | --- | --- |
+| [assessment-basic](https://github.com/DylanPaternina/fullstack-calculator/tree/assessment-basic) | `7054b3b` | Original four-operation calculator, tests and documentation |
+| [assessment-advanced](https://github.com/DylanPaternina/fullstack-calculator/tree/assessment-advanced) | `c55f2ef` | Targeted test/focus fixes, powers, roots, contextual percentages and Docker Compose |
+
+The basic version was published first, followed by the advanced version using the existing commit history. `main` contains the advanced implementation and subsequent publication documentation. The tags retain the two implementation milestones for comparison.
+
+```sh
+git clone https://github.com/DylanPaternina/fullstack-calculator.git
+cd fullstack-calculator
+```
+
 ## Run locally
 
 Install **Go 1.26+**, **Node.js 24 LTS** (22.13+ in the 22.x line or 26+ also supported by the dependency engine constraints), and npm. Tested with Go 1.27.3, Node 24.22.1, and npm 12.2.1. No database, environment file, or backend dependency installation is required.
@@ -242,6 +258,6 @@ PowerShell: `$env:CALCULATOR_BACKEND_DOWN='1'; npm run test:integration -- --gre
 
 ## Validation and limitations
 
-See [docs/VALIDATION.md](docs/VALIDATION.md) for executed checks and requirement evidence. Browser checks used Chromium on Windows; other engines, real mobile devices, and screen-reader behavior were not exhaustively tested. Semantics, labels, live announcements, keyboard activation, visible focus, and responsive sizing are implemented. Docker runtime verification remains pending. No public deployment or remote repository has been created.
+See [docs/VALIDATION.md](docs/VALIDATION.md) for executed checks and requirement evidence. Browser checks used Chromium on Windows; other engines, real mobile devices, and screen-reader behavior were not exhaustively tested. Semantics, labels, live announcements, keyboard activation, visible focus, and responsive sizing are implemented. Docker runtime verification remains pending. The source is published on GitHub; the running application has not been publicly deployed.
 
-AI-assisted implementation and the exact original master prompt are disclosed in [PROMPTS.md](PROMPTS.md). Publication requires explicit owner authorization.
+AI-assisted implementation and the exact original master prompt are disclosed in [PROMPTS.md](PROMPTS.md). GitHub repository publication was explicitly authorized by the owner; application hosting is a separate step.

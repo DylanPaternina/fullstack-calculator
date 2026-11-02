@@ -70,4 +70,4 @@ These checks cannot replace Docker's builder, Nginx's own parser or runtime netw
 
 Viewports 375/768/1440 were checked for horizontal overflow and focused input geometry; the updated full-page screenshots were inspected. Other browser engines, real touch devices and screen readers were not exhaustively tested. No race-detector claim is made. Docker runtime verification remains **pending**.
 
-The private historical audit/report and evaluation transcripts are deliberately excluded. The README documents technical fixes, and PROMPTS.md retains actual implementation instructions without including private audit materials. Publication remains unauthorized.
+The private historical audit/report and evaluation transcripts are deliberately excluded. The README documents technical fixes, and PROMPTS.md retains actual implementation instructions without including private audit materials. These implementation checks preceded publication; the owner subsequently authorized the GitHub repository, which preserves the basic and advanced implementation milestones. Source publication provides no additional Docker runtime verification.

@@ -24,6 +24,18 @@ The private audit was consulted only to verify the two concrete defect descripti
 
 The update extends the existing Go parser with powers, grouping, square roots and a direct-percentage operand marker; React inserts syntax and displays backend results. Tests cover the comparison helper itself, all requested acceptance examples, domains, recursion limits and UI regressions. Docker files are checked statically; container execution remains unverified because Docker is unavailable. Current measured evidence is recorded in the coverage/validation documents, not inferred from the historical assessment.
 
+## Publication — actual user instructions
+
+The owner subsequently authorized GitHub publication:
+
+> ok ya puedes publicarlo en git hub
+
+The owner then requested the earlier version be published before the advanced changes, preserving an organized history:
+
+> vale para tener historial de commits y organizacion te propongo que pongas la version antes de estos ultimos cambios y despues publiques con los cambios generados
+
+The existing basic commit was published first, then the existing advanced commit, with `assessment-basic` and `assessment-advanced` tags. The original implementation history was preserved. A separate documentation commit records publication and version links. Private review reports and transcripts remain excluded.
+
 ## Actions performed (summary, not prompts)
 
 - Inspected the empty workspace and local tooling, selected compatible releases from official registries, and downloaded project-local Go/npm tooling. Go's archive checksum was checked against the official manifest.
