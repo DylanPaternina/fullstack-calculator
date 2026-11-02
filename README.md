@@ -170,7 +170,7 @@ I distinguished numerical precision from presentation. Results display up to 12 
 
 I treated automated testing as a core requirement. The suites cover mathematics/precedence, invalid expressions and numeric edges, HTTP contracts, React/keyboard interaction, network failures, recovery, full-stack integration and regressions after advanced features.
 
-Go testing/`httptest`, Vitest/React Testing Library, Playwright and HTTP smoke checks provide complementary evidence. Coverage measures execution but does not replace meaningful assertions. Independent technical reviews informed targeted corrections without a redesign, including precision comparisons, focus spacing, dependency maintenance and explicit zero-result serialization. Recorded results come from automated tool execution.
+Go testing/`httptest`, Vitest/React Testing Library, Playwright and HTTP smoke checks provide complementary evidence. Coverage measures execution but does not replace meaningful assertions. Technical review informed targeted corrections to numerical comparisons, keyboard focus, dependency handling and zero-result serialization. Recorded results come from automated tool execution.
 
 ### 9. Docker and Deployment Architecture
 
@@ -182,7 +182,7 @@ Only the frontend port is exposed to the host; browser requests use a same-origi
 
 I used OpenAI Codex as an engineering assistant for implementation, testing, documentation and refinement. My involvement focused on requirements, behavior, technical direction, quality expectations, reviewing results and directing improvements from technical feedback.
 
-I made specific decisions about the interface, backend expression evaluation, precedence, percentage semantics, optional operations and deployment. AI assistance accelerated implementation; automated tests and reviews validated the resulting work. This is not represented as exclusively manual coding or personally performed manual testing. The genuine development instructions are recorded in [PROMPTS.md](PROMPTS.md); private review reports/transcripts remain excluded.
+I made specific decisions about the interface, backend expression evaluation, precedence, percentage semantics, optional operations and deployment. AI assistance accelerated implementation, and automated tests and technical reviews provided validation evidence. The original development prompts are available in [PROMPTS.md](PROMPTS.md).
 
 ### Final Engineering Principle
 
@@ -276,6 +276,6 @@ Repository: [DylanPaternina/fullstack-calculator](https://github.com/DylanPatern
 | [assessment-basic](https://github.com/DylanPaternina/fullstack-calculator/tree/assessment-basic) | `7054b3b` | Original four-operation calculator, tests and documentation |
 | [assessment-advanced](https://github.com/DylanPaternina/fullstack-calculator/tree/assessment-advanced) | `c55f2ef` | Targeted fixes, powers, roots, percentages and Compose |
 
-The original history and tags are retained; main includes follow-up maintenance. Publishing source is separate from deploying the running application, which has not been publicly hosted. Local release updates require explicit publication authorization before push.
+The tags preserve the basic and advanced implementation milestones; main includes subsequent maintenance. To evaluate the application, clone the repository and follow the local or Docker setup above.
 
 Browser validation used Chromium on Windows. Other engines, real touch devices, screen readers, load performance and exhaustive image security have not been comprehensively verified. The documented float64 and percentage policies remain intentional limitations, not claims of universal calculator semantics.

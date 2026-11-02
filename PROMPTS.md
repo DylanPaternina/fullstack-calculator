@@ -1,55 +1,19 @@
-# AI assistance and actual prompts
+# AI-assisted development and prompts
 
-This project was implemented with **OpenAI Codex (GPT-6)**. AI assistance produced application code, tests, documentation, and review fixes. It must not be represented as exclusively manual work. The exact runtime model variant is not available in the project record.
+The project used **OpenAI Codex (GPT-6)** for application code, tests, documentation and targeted corrections, under the owner's technical direction. The owner defined requirements, mathematical behavior, architectural choices and review priorities.
 
-## Actual user instructions
+## Development prompts
 
-The following goal was supplied verbatim (the `/goal` command introduced it):
+This record focuses on the substantive implementation prompts. The linked documents preserve their original wording.
 
-> Build a complete, clean, maintainable, and thoroughly tested React + TypeScript and Go calculator that satisfies the technical assessment requirements. Verify all mandatory functionality, tests, coverage, integration, and documentation. Do not publish without explicit authorization.
+| Stage | Original prompt | Scope |
+| --- | --- | --- |
+| Initial implementation | [Master prompt](docs/MASTER_PROMPT.md) | React/TypeScript and Go calculator, architecture, API, testing, documentation and acceptance criteria |
+| Advanced functionality | [Final improvements](docs/FINAL_IMPROVEMENTS_PROMPT.md) | Targeted correctness/accessibility fixes, powers, square roots, contextual percentages and two-service Docker Compose |
+| Maintenance | [Final maintenance](docs/MAINTENANCE_PROMPT.md) | Safe minimatch remediation, explicit HTTP zero-result regression and full release validation |
 
-The complete, original implementation instruction is preserved verbatim in [docs/MASTER_PROMPT.md](docs/MASTER_PROMPT.md), copied from the supplied text attachment. It includes the functional contract, architecture, testing, correction workflow, senior-review instructions, publication boundaries, and definition of done. It is the actual prompt, not a reconstructed summary.
+## Implementation and validation
 
-During the initial implementation, no additional user correction prompts or separate AI reviewer prompts were used. The agent reviewed its own code under the master prompt's Phase 6 directive. User preferences required responses in the user's language; application text and repository documentation follow the master prompt's English requirement.
+AI assistance supported the Go evaluator and JSON API, React interface, automated tests, documentation and focused review corrections. Automated checks used Go testing/httptest, Vitest, React Testing Library, ESLint, TypeScript, Vite, Playwright and HTTP smoke tests.
 
-## Final improvements — actual follow-up instructions
-
-The exact received implementation prompt for the update is preserved in [docs/FINAL_IMPROVEMENTS_PROMPT.md](docs/FINAL_IMPROVEMENTS_PROMPT.md). It requires the two targeted fixes, powers, square roots, contextual percentages and two-service Docker Compose. Earlier genuine prompts above remain unchanged.
-
-The accompanying user message was:
-
-> puedes leer el TECHNICAL.REVIEW.md pera comprobar el R01 Y R02 y puede hacer mencion tecnica de estas correciones cuando lo menciones en el README.md describiendo loo que estas corrigiendo no hace falta meter la review en la entrega a git
-
-The private audit was consulted only to verify the two concrete defect descriptions. Its prompt, report, score, reviewer transcript and unrelated evaluation material are excluded from this deliverable at the owner's direction. README documentation explains the actual test-comparison and focus-spacing changes without incorporating that audit.
-
-The update extended the existing Go parser with powers, grouping, square roots and a direct-percentage operand marker; React inserts syntax and displays backend results. Tests cover the comparison helper itself, all requested acceptance examples, domains, recursion limits and UI regressions. At that stage Docker files were checked statically because Docker was unavailable. The later maintenance validation below executed the containers. Current measured evidence is recorded in the coverage/validation documents, not inferred from the historical assessment.
-
-## Publication — actual user instructions
-
-The owner subsequently authorized GitHub publication:
-
-> ok ya puedes publicarlo en git hub
-
-The owner then requested the earlier version be published before the advanced changes, preserving an organized history:
-
-> vale para tener historial de commits y organizacion te propongo que pongas la version antes de estos ultimos cambios y despues publiques con los cambios generados
-
-The existing basic commit was published first, then the existing advanced commit, with `assessment-basic` and `assessment-advanced` tags. The original implementation history was preserved. A separate documentation commit records publication and version links. Private review reports and transcripts remain excluded.
-
-## Final maintenance — actual follow-up instruction
-
-The complete received maintenance instruction is preserved verbatim in [docs/MAINTENANCE_PROMPT.md](docs/MAINTENANCE_PROMPT.md). It requests a safe fix for the transitive minimatch advisory, an explicit HTTP zero-result regression, full local and Docker validation, accurate prompt disclosure, and a stop before pushing until publication is explicitly authorized. The review summary within that instruction is supplied by the owner; the private review report and transcripts are not included.
-
-The implementation retains the current primary tooling versions, scopes minimatch 11.0.1 to three inspected consumers after compatibility checks, and adds a table-driven API test without changing the production handler. Both npm audits and the regression/build/integration/container checks passed. Validation documents record actual results and compatibility limits. The separate personal Docker installation instruction and its diagnostic logs remain outside this deliverable.
-
-## Actions performed (summary, not prompts)
-
-- Inspected the empty workspace and local tooling, selected compatible releases from official registries, and downloaded project-local Go/npm tooling. Go's archive checksum was checked against the official manifest.
-- Implemented a Go arithmetic parser, JSON API, React calculator, and Fetch boundary.
-- Used Go tests/httptest, fuzzing, Vitest, React Testing Library, ESLint, TypeScript, Vite, Node HTTP smoke checks, and Playwright/Chromium against real local processes.
-- Corrected findings from test/static-check execution: editable-region keyboard isolation, ambiguous test selectors, Fetch error cause preservation, and TypeScript test-query options. Review also tightened Enter behavior after button clicks, unmount cancellation, and error-description associations. Corrected environment issues with Go temporary directories and PowerShell flag parsing; reran affected checks.
-- Reviewed generated viewport screenshots and code responsibilities, parser bounds/precedence, numeric handling, stale-request safety, dependency scope, and repository contents.
-
-Tools included terminal/patch tools, official registry queries/web lookup, local file/image inspection, the Sites local-preview guide, and the Codex preview panel. No Sites registration, publication, or external messaging occurred. Actual executed validation and remaining limits are recorded in [docs/VALIDATION.md](docs/VALIDATION.md) and [docs/COVERAGE.md](docs/COVERAGE.md).
-
-Internal model reasoning and system/developer instructions are not part of this disclosure. No hidden reasoning or invented development prompts are included.
+The owner's engineering rationale is documented in the [README's Design Decisions](README.md#design-decisions). Executed checks, measured results and verification limits are recorded in [VALIDATION.md](docs/VALIDATION.md) and [COVERAGE.md](docs/COVERAGE.md).

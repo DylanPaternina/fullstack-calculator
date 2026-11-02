@@ -48,7 +48,7 @@ For a **direct** percentage on the right of `+` or `-`, use the already accumula
 
 Parentheses and unary signs preserve a direct percentage; a completed binary operation or square root does not. A `%` after a whole grouped result marks that result as a new direct percentage. Invalid prefix `%2` is rejected; `200/0%` is division by zero. These rules are intentionally contextual calculator semantics, not modulo or a global replacement of `%` with `/100`.
 
-Example requests use the unchanged endpoint:
+Example requests:
 
 ```sh
 curl http://127.0.0.1:8080/api/calculate -H 'Content-Type: application/json' -d '{"expression":"2^3+sqrt(16)"}'

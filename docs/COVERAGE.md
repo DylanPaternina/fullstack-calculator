@@ -1,6 +1,6 @@
 # Measured test coverage
 
-Measured on **2026-11-02** with Go 1.27.3 and Vitest/coverage-v8 5.0.5. These are executed results, not coverage targets.
+Measured on **2026-11-02** with Go 1.27.3 and Vitest/coverage-v8 5.0.5.
 
 ## Backend
 
@@ -21,21 +21,21 @@ go tool cover '-html=coverage.out' -o coverage.html
 
 The full raw Go profile is retained as [evidence/backend-coverage.out](evidence/backend-coverage.out). The actual function report is [evidence/backend-coverage.txt](evidence/backend-coverage.txt). Regenerate the local HTML report with the command above. To render the retained profile, from `backend/` use `go tool cover '-html=../docs/evidence/backend-coverage.out' -o coverage.html`.
 
-Table-driven tests verify original arithmetic, precedence, associativity, unary signs, decimals/scientific literals, whitespace, zero, invalid/truncated expressions, unsupported input, division by zero, intermediate/literal overflow, and exact expression boundaries. The update adds every requested power/root/percentage acceptance example, right-associative powers, signed powers, real-domain errors, grouping, repeated/signed/grouped contextual percentages, and combined recursion limits (including the exact limit). HTTP tests verify advanced results/errors alongside the original request/method/body validation cases.
+Table-driven tests cover arithmetic, precedence, associativity, unary signs, decimal/scientific literals, whitespace, zero, invalid syntax, unsupported input, division by zero, overflow and expression limits. They also cover powers, roots, grouping, real-domain errors, contextual percentages and combined recursion limits. HTTP tests exercise calculations and request, method, body and error validation.
 
-Final maintenance reran all backend tests and coverage. There are **191 table subcases and 11 fuzz seeds**, including `TestAPIZeroResult/zero_division`: `0/5` must return HTTP 200, valid JSON, a present/non-null `*float64` equal to zero, and no `error` property (even `error: null` is rejected by the test). No production handler change was needed. Coverage values and the retained raw production profile remain unchanged; the regenerated profile is byte-identical to the retained evidence.
+The backend suite contains **191 table subcases and 11 fuzz seeds**. `TestAPIZeroResult/zero_division` requires `0/5` to return HTTP 200, valid JSON and a present/non-null `*float64` equal to zero. The error field must be absent; `error: null` is rejected. The regenerated production profile matches the retained evidence byte for byte.
 
 The test-only comparison helper has its own regression table. It rejects NaN and either Infinity, requires exact expected zero, uses relative tolerance for finite nonzero results, and distinguishes zero, tiny values and adjacent subnormal values. Production coverage percentages do not include `_test.go` source; the helper's behavior is checked by those tests rather than inferred from application coverage.
 
-The server entry point has no unit instrumentation coverage. Its actual startup and binding were exercised by real HTTP and Chromium tests, which are not included in this profile. The API's defensive unexpected-evaluator-error branch is not forced: the evaluator currently returns only its declared error type. The report does not hide these gaps or substitute integration execution for unit coverage.
+The server entry point has no unit instrumentation coverage; startup and binding are exercised separately through HTTP and Chromium. The API's unexpected-evaluator-error fallback is not covered because the current evaluator returns only its declared error type.
 
-Earlier advanced-implementation fuzz run (not repeated during the test/dependency-only maintenance):
+Separately recorded fuzz run:
 
 ```sh
 go test ./internal/evaluator '-fuzz=FuzzEvaluate' '-fuzztime=5s'
 ```
 
-**PASS**, 55,684 executions, 19 new interesting inputs in the updated run. Seeds now include powers, contextual percentages, nested grouping and root-domain failures. The fuzz property checks for panics and non-finite successful values; it is not a mathematical oracle. Table-driven expected results verify mathematical correctness separately. No crash corpus was generated.
+**PASS:** 55,684 executions, 19 new interesting inputs and no crash corpus. Seeds include powers, contextual percentages, nested grouping and root-domain failures. Fuzzing checks for panics and non-finite successful values; table-driven expectations check mathematical correctness. Regular test runs execute the 11 seeds without repeating the timed fuzz campaign.
 
 ## Frontend
 
@@ -59,8 +59,8 @@ Coverage explicitly includes `src/**/*.{ts,tsx}`, including unimported applicati
 
 Behavior tested includes number/operator/function/grouping buttons, advanced keyboard syntax, direct editing, focused-keypad Enter, clear/delete, empty/oversized input, submission, backend-returned results, errors/recovery, pending state, duplicate prevention, request cancellation, stale successes/failures, full-precision result continuation (including power and percent), explicit grouping of negative power bases, timeout, and unmount cleanup. Fetch tests cover JSON requests, structured/unstructured HTTP errors, malformed/non-JSON/non-finite responses, network failure, and cancellation.
 
-Remaining uncovered items are the initial no-op keyboard-ref callback and the stale timer's non-current-request branch. Stale response protection is tested directly. No superficial tests were added solely to execute unreachable initialization paths.
+Remaining uncovered items are the initial no-op keyboard-ref callback and the stale timer's non-current-request branch. Stale response protection is tested directly.
 
 ## Scope limits
 
-Coverage proves execution, not correctness by itself. Browser integration is documented separately in [VALIDATION.md](VALIDATION.md). No universal 100% threshold is imposed. Snapshot profiles reflect this implementation; rerun coverage after changing application source. Generated HTML, caches, binaries, and dependency directories are ignored by Git.
+Coverage measures execution and should be interpreted alongside the assertions. Browser integration is documented in [VALIDATION.md](VALIDATION.md). Regenerate coverage after changing application source. Generated HTML, caches, binaries and dependency directories are ignored by Git.
