@@ -89,3 +89,13 @@ Application logs showed the expected 200/400 requests and no unexpected proxy or
 Viewports 375/768/1440 were checked for horizontal overflow and focused input geometry; full-page screenshots were generated. Other browser engines, real touch devices and screen readers were not exhaustively tested. No race-detector, load-test or exhaustive image-security-scan claim is made. Docker runtime verification passed; it does not establish those additional properties.
 
 The private audit reports and evaluation transcripts are deliberately excluded. README documents the technical maintenance, and PROMPTS.md retains the actual received maintenance instruction. Existing published history is preserved. This maintenance was prepared locally; pushing it requires the owner's explicit authorization.
+
+## Documentation and deliverable verification
+
+A clean local clone of implementation revision `2a8bae7` was installed with `npm ci` using the existing validated toolchain. Lint, TypeScript, all 34 frontend tests, coverage and production build passed again. Both npm audits reported zero findings, and the resolved minimatch remained 11.0.1. Go tests/static analysis/build and coverage were rerun: 191 table subcases and 11 seeds passed, with the same recorded percentages and unchanged raw production profile.
+
+The documented Go and Vite startup commands were exercised from that clone. The existing smoke passed 56 requests, and the five normal browser tests passed. The opt-in stopped-backend test was repeated separately with Go actually stopped and Vite running. Thirty-three representative documented API requests passed across direct Go, Vite and Nginx, including arithmetic/precedence, powers, roots, contextual percentages, zero, division by zero, invalid expressions and domain errors. The README's PowerShell request also returned 11.
+
+Compose configuration, `up --build -d` (valid cached layers), service status and Nginx validation passed again without infrastructure changes. Chromium repeated the production UI checks through 8088, including the three recorded viewport widths. Application logs and restart counts were inspected before stopping the test services. This repeated verification does not claim new unit coverage for bootstrap/CSS or exhaustive platform testing.
+
+The README now separates owner-directed design rationale from AI-assisted implementation, and links the preserved detailed API/numeric references. Relative files/anchors, documented examples, prompt-source fidelity and excluded artifacts were checked. Coverage figures were not changed merely for the documentation update. Repository publication remains a separate authorized action.
