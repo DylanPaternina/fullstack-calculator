@@ -22,7 +22,7 @@ The accompanying user message was:
 
 The private audit was consulted only to verify the two concrete defect descriptions. Its prompt, report, score, reviewer transcript and unrelated evaluation material are excluded from this deliverable at the owner's direction. README documentation explains the actual test-comparison and focus-spacing changes without incorporating that audit.
 
-The update extends the existing Go parser with powers, grouping, square roots and a direct-percentage operand marker; React inserts syntax and displays backend results. Tests cover the comparison helper itself, all requested acceptance examples, domains, recursion limits and UI regressions. Docker files are checked statically; container execution remains unverified because Docker is unavailable. Current measured evidence is recorded in the coverage/validation documents, not inferred from the historical assessment.
+The update extended the existing Go parser with powers, grouping, square roots and a direct-percentage operand marker; React inserts syntax and displays backend results. Tests cover the comparison helper itself, all requested acceptance examples, domains, recursion limits and UI regressions. At that stage Docker files were checked statically because Docker was unavailable. The later maintenance validation below executed the containers. Current measured evidence is recorded in the coverage/validation documents, not inferred from the historical assessment.
 
 ## Publication — actual user instructions
 
@@ -35,6 +35,12 @@ The owner then requested the earlier version be published before the advanced ch
 > vale para tener historial de commits y organizacion te propongo que pongas la version antes de estos ultimos cambios y despues publiques con los cambios generados
 
 The existing basic commit was published first, then the existing advanced commit, with `assessment-basic` and `assessment-advanced` tags. The original implementation history was preserved. A separate documentation commit records publication and version links. Private review reports and transcripts remain excluded.
+
+## Final maintenance — actual follow-up instruction
+
+The complete received maintenance instruction is preserved verbatim in [docs/MAINTENANCE_PROMPT.md](docs/MAINTENANCE_PROMPT.md). It requests a safe fix for the transitive minimatch advisory, an explicit HTTP zero-result regression, full local and Docker validation, accurate prompt disclosure, and a stop before pushing until publication is explicitly authorized. The review summary within that instruction is supplied by the owner; the private review report and transcripts are not included.
+
+The implementation retains the current primary tooling versions, scopes minimatch 11.0.1 to three inspected consumers after compatibility checks, and adds a table-driven API test without changing the production handler. Both npm audits and the regression/build/integration/container checks passed. Validation documents record actual results and compatibility limits. The separate personal Docker installation instruction and its diagnostic logs remain outside this deliverable.
 
 ## Actions performed (summary, not prompts)
 

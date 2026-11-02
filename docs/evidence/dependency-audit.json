@@ -1,0 +1,39 @@
+{
+  "measuredOn": "2026-11-02",
+  "advisory": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+  "previousMinimatch": "10.2.6",
+  "resolvedMinimatch": "11.0.1",
+  "strategy": "Three consumer-scoped overrides; primary tooling unchanged",
+  "consumers": {
+    "eslint": "10.14.0",
+    "@eslint/config-array": "0.23.5",
+    "@typescript-eslint/typescript-estree": "8.72.1"
+  },
+  "audit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "productionAudit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "completeTreeValid": true,
+  "compatibility": {
+    "lintedFiles": 10,
+    "ignoresPreserved": true,
+    "deliberateLintErrorDetected": true,
+    "projectServiceGlobParsed": true,
+    "comparisons": 14196,
+    "currentPatternsIdentical": true,
+    "exploratoryDifferences": 18,
+    "limitation": "Differences on two unused patterns containing **/..; no universal cross-major glob equivalence claimed."
+  }
+}

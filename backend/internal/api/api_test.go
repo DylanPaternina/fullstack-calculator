@@ -69,3 +69,33 @@ func TestAPI(t *testing.T) {
 		})
 	}
 }
+
+func TestAPIZeroResult(t *testing.T) {
+	for _, tc := range []struct {
+		name, expression string
+	}{
+		{"zero division", "0/5"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			body, err := json.Marshal(map[string]string{"expression": tc.expression})
+			if err != nil {
+				t.Fatal(err)
+			}
+			w := httptest.NewRecorder()
+			NewHandler().ServeHTTP(w, httptest.NewRequest("POST", "/api/calculate", strings.NewReader(string(body))))
+			if w.Code != 200 {
+				t.Fatalf("status %d, body %s", w.Code, w.Body.String())
+			}
+			var response struct {
+				Result *float64        `json:"result"`
+				Error  json.RawMessage `json:"error"`
+			}
+			if err := json.Unmarshal(w.Body.Bytes(), &response); err != nil {
+				t.Fatal(err)
+			}
+			if response.Result == nil || *response.Result != 0 || response.Error != nil {
+				t.Fatalf("expected a present, non-null zero result with no error field: %s", w.Body.String())
+			}
+		})
+	}
+}

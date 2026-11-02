@@ -197,7 +197,7 @@ Open **http://127.0.0.1:8088**. The frontend uses a Node 24 multi-stage producti
 
 Base tags follow their Go/Node release line and Nginx stable Alpine image; dependency versions are fixed by `npm ci` and the lockfile. Image digests are not pinned. Official image references: [Go](https://hub.docker.com/_/golang), [Node](https://hub.docker.com/_/node), [Nginx](https://hub.docker.com/_/nginx).
 
-Once Docker is available, verify the real containers:
+Verify the real containers:
 
 ```sh
 docker compose exec frontend nginx -t
@@ -210,7 +210,7 @@ docker compose down
 
 Expect result 12, result 220, and an HTTP 400 `domain_error`, respectively. Initial startup can briefly return 502 before Go is ready; retry after both processes start. `docker compose down` stops/removes the two services.
 
-**Current status: implemented but not runtime-verified.** Docker and Nginx are unavailable on the implementation machine. YAML parsing, validation against the official Compose JSON schema, COPY/build path checks, two-service networking/proxy consistency, and normal local tests/builds were executed. No image build, container startup, `docker compose config`, `nginx -t`, or containerized end-to-end result is claimed. Run the commands above when Docker becomes available.
+**Current status: runtime-verified on 2026-11-02.** Docker Compose built and started both services; `nginx -t` passed. Actual HTTP and Chromium checks through `127.0.0.1:8088` verified production assets, original/advanced calculations, a present zero result, division-by-zero errors and recovery. Both services remained running without restarts or unexpected application errors. Test containers were removed with `docker compose down`, retaining the images. Measured evidence and limits are in [docs/VALIDATION.md](docs/VALIDATION.md).
 
 ## Tests and build
 
@@ -258,6 +258,6 @@ PowerShell: `$env:CALCULATOR_BACKEND_DOWN='1'; npm run test:integration -- --gre
 
 ## Validation and limitations
 
-See [docs/VALIDATION.md](docs/VALIDATION.md) for executed checks and requirement evidence. Browser checks used Chromium on Windows; other engines, real mobile devices, and screen-reader behavior were not exhaustively tested. Semantics, labels, live announcements, keyboard activation, visible focus, and responsive sizing are implemented. Docker runtime verification remains pending. The source is published on GitHub; the running application has not been publicly deployed.
+See [docs/VALIDATION.md](docs/VALIDATION.md) for executed checks and requirement evidence. Browser checks used Chromium on Windows; other engines, real mobile devices, and screen-reader behavior were not exhaustively tested. Semantics, labels, live announcements, keyboard activation, visible focus, and responsive sizing are implemented. The final maintenance update scopes the patched `minimatch@11.0.1` to its three inspected development-tool consumers and adds an HTTP regression requiring a present, non-null zero result with no error field. Full regression and Docker runtime checks passed. The source is published on GitHub; the running application has not been publicly deployed.
 
 AI-assisted implementation and the exact original master prompt are disclosed in [PROMPTS.md](PROMPTS.md). GitHub repository publication was explicitly authorized by the owner; application hosting is a separate step.

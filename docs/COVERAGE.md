@@ -23,11 +23,13 @@ The full raw Go profile is retained as [evidence/backend-coverage.out](evidence/
 
 Table-driven tests verify original arithmetic, precedence, associativity, unary signs, decimals/scientific literals, whitespace, zero, invalid/truncated expressions, unsupported input, division by zero, intermediate/literal overflow, and exact expression boundaries. The update adds every requested power/root/percentage acceptance example, right-associative powers, signed powers, real-domain errors, grouping, repeated/signed/grouped contextual percentages, and combined recursion limits (including the exact limit). HTTP tests verify advanced results/errors alongside the original request/method/body validation cases.
 
+Final maintenance reran all backend tests and coverage. There are **191 table subcases and 11 fuzz seeds**, including `TestAPIZeroResult/zero_division`: `0/5` must return HTTP 200, valid JSON, a present/non-null `*float64` equal to zero, and no `error` property (even `error: null` is rejected by the test). No production handler change was needed. Coverage values and the retained raw production profile remain unchanged; the regenerated profile is byte-identical to the retained evidence.
+
 The test-only comparison helper has its own regression table. It rejects NaN and either Infinity, requires exact expected zero, uses relative tolerance for finite nonzero results, and distinguishes zero, tiny values and adjacent subnormal values. Production coverage percentages do not include `_test.go` source; the helper's behavior is checked by those tests rather than inferred from application coverage.
 
 The server entry point has no unit instrumentation coverage. Its actual startup and binding were exercised by real HTTP and Chromium tests, which are not included in this profile. The API's defensive unexpected-evaluator-error branch is not forced: the evaluator currently returns only its declared error type. The report does not hide these gaps or substitute integration execution for unit coverage.
 
-Additional fuzz run:
+Earlier advanced-implementation fuzz run (not repeated during the test/dependency-only maintenance):
 
 ```sh
 go test ./internal/evaluator '-fuzz=FuzzEvaluate' '-fuzztime=5s'

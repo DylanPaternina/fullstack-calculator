@@ -1,9 +1,91 @@
 {
-  "yamlSyntax": "PASS",
-  "officialComposeSchema": "PASS",
+  "measuredOn": "2026-11-02",
+  "dockerDesktop": "4.97.0",
+  "engine": "29.9.2",
+  "compose": "5.6.1",
+  "composeConfig": "PASS",
   "services": 2,
-  "pathsPortsProxyConsistency": "PASS",
-  "dockerBuild": "NOT RUN",
-  "dockerRuntime": "PENDING",
-  "nginxSyntaxTest": "NOT RUN (nginx executable unavailable)"
+  "builds": {
+    "backend": "PASS (unchanged source; cached layers)",
+    "frontend": "PASS (patched lockfile; npm ci audit zero)"
+  },
+  "nginxSyntaxTest": "PASS",
+  "frontendHttpStatus": 200,
+  "apiThroughFrontend": [
+    {
+      "expression": "5+3*2",
+      "status": 200,
+      "data": {
+        "result": 11
+      }
+    },
+    {
+      "expression": "2^3",
+      "status": 200,
+      "data": {
+        "result": 8
+      }
+    },
+    {
+      "expression": "sqrt(81)",
+      "status": 200,
+      "data": {
+        "result": 9
+      }
+    },
+    {
+      "expression": "2^3+sqrt(16)",
+      "status": 200,
+      "data": {
+        "result": 12
+      }
+    },
+    {
+      "expression": "200+10%",
+      "status": 200,
+      "data": {
+        "result": 220
+      }
+    },
+    {
+      "expression": "200*10%",
+      "status": 200,
+      "data": {
+        "result": 20
+      }
+    },
+    {
+      "expression": "0/5",
+      "status": 200,
+      "data": {
+        "result": 0
+      }
+    },
+    {
+      "expression": "5/0",
+      "status": 400,
+      "data": {
+        "error": {
+          "code": "division_by_zero",
+          "message": "Cannot divide by zero"
+        }
+      }
+    }
+  ],
+  "browser": {
+    "engine": "Chromium",
+    "passed": true,
+    "apiCases": 8,
+    "widths": [
+      375,
+      768,
+      1440
+    ],
+    "recoveryAndKeyboard": "PASS",
+    "pageExceptions": 0
+  },
+  "unexpectedApplicationErrors": 0,
+  "serviceRestarts": 0,
+  "healthchecksConfigured": false,
+  "cleanup": "compose down; images retained"
 }
