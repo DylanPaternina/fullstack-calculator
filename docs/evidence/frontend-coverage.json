@@ -1,28 +1,28 @@
 {
   "total": {
     "lines": {
-      "total": 84,
-      "covered": 84,
+      "total": 89,
+      "covered": 89,
       "skipped": 0,
       "pct": 100
     },
     "statements": {
-      "total": 106,
-      "covered": 106,
+      "total": 113,
+      "covered": 113,
       "skipped": 0,
       "pct": 100
     },
     "functions": {
-      "total": 20,
-      "covered": 19,
+      "total": 22,
+      "covered": 21,
       "skipped": 0,
-      "pct": 95
+      "pct": 95.45
     },
     "branches": {
-      "total": 85,
-      "covered": 84,
+      "total": 90,
+      "covered": 89,
       "skipped": 0,
-      "pct": 98.82
+      "pct": 98.88
     },
     "branchesTrue": {
       "total": 0,
@@ -33,28 +33,28 @@
   },
   "src/App.tsx": {
     "lines": {
-      "total": 71,
-      "covered": 71,
+      "total": 76,
+      "covered": 76,
       "skipped": 0,
       "pct": 100
     },
     "functions": {
-      "total": 18,
-      "covered": 17,
+      "total": 20,
+      "covered": 19,
       "skipped": 0,
-      "pct": 94.44
+      "pct": 95
     },
     "statements": {
-      "total": 90,
-      "covered": 90,
+      "total": 97,
+      "covered": 97,
       "skipped": 0,
       "pct": 100
     },
     "branches": {
-      "total": 69,
-      "covered": 68,
+      "total": 74,
+      "covered": 73,
       "skipped": 0,
-      "pct": 98.55
+      "pct": 98.64
     }
   },
   "src/api.ts": {

@@ -13,13 +13,15 @@ h1 span { color: #9b571d; }
 .calculator { background: #fffef7; padding: 16px; border: 1px solid #d9ded2; border-radius: 23px; box-shadow: 0 12px 32px #253e3010; }
 .display { background: #e7ecdf; border: 1px solid #dce3d3; border-radius: 13px; padding: 19px 18px 12px; }
 label { font-size: 9px; font-weight: 700; letter-spacing: .17em; color: #53634e; }
-input { width: 100%; display: block; font: 400 23px/1.5 'Segoe UI', sans-serif; color: #344c39; text-align: right; background: transparent; border: 0; border-radius: 3px; padding: 10px 0 3px; }
+input { width: 100%; display: block; margin-top: 6px; font: 400 23px/1.5 'Segoe UI', sans-serif; color: #344c39; text-align: right; background: transparent; border: 0; border-radius: 3px; padding: 10px 0 3px; }
 input::placeholder { color: #64745e; }
 .result-line { display: flex; align-items: center; gap: 8px; min-height: 58px; }
 .result-line > span { font-size: 22px; color: #68795f; }
 output { flex: 1; min-width: 0; overflow-wrap: anywhere; text-align: right; font-size: clamp(25px, 7vw, 36px); font-weight: 600; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
 .status { margin: 8px 0 0; min-height: 15px; text-align: right; color: #526249; font-size: 10px; }
 .keypad { margin-top: 14px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+.advanced-keys { margin-top: 14px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; }
+.advanced-keys button { min-height: 44px; font-size: 16px; }
 button { appearance: none; cursor: pointer; min-height: 58px; padding: 8px; background: #f2f2ea; border: 1px solid #e9e9df; border-radius: 11px; color: #243f35; font: 500 22px/1.2 'Segoe UI', sans-serif; transition: background .12s; }
 button:hover { background: #e3e8da; }
 button:active { transform: translateY(1px); }

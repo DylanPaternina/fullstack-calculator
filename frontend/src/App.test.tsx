@@ -20,7 +20,7 @@ describe('Calculator interaction', () => {
     expect(screen.getByRole('heading', { name: 'Calculator.' })).toBeVisible()
     expect(input()).toHaveValue('')
     expect(screen.getByLabelText('Result')).toHaveTextContent('—')
-    expect(screen.getAllByRole('button')).toHaveLength(18)
+    expect(screen.getAllByRole('button')).toHaveLength(23)
   })
   it('constructs expressions with numeric, decimal and every operator button', async () => {
     render(<App />)
@@ -30,6 +30,48 @@ describe('Calculator interaction', () => {
     }
     expect(input()).toHaveValue('5.3+2-1*4/2')
     expect(calculateMock).not.toHaveBeenCalled()
+  })
+  it('constructs advanced expressions through buttons and submits unchanged syntax', async () => {
+    render(<App />)
+    const user = userEvent.setup()
+    for (const name of ['Open parenthesis', '2', 'Power', '3', 'Close parenthesis', 'Add', 'Square root', '1', '6', 'Close parenthesis', 'Multiply', '2', '0', 'Percentage']) {
+      await user.click(screen.getByRole('button', { name }))
+    }
+    expect(input()).toHaveValue('(2^3)+sqrt(16)*20%')
+    submit()
+    await waitFor(() => expect(calculateMock).toHaveBeenCalledWith('(2^3)+sqrt(16)*20%', expect.any(AbortSignal)))
+    expect(screen.getByLabelText('Result')).toHaveTextContent('11')
+  })
+  it('supports advanced keyboard syntax and deleting function tokens as ordinary text', () => {
+    render(<App />)
+    for (const character of 'sqrt(9)+2^3+10%') key(character)
+    expect(input()).toHaveValue('sqrt(9)+2^3+10%')
+    key('Backspace'); expect(input()).toHaveValue('sqrt(9)+2^3+10')
+    key('Escape')
+    fireEvent.click(screen.getByRole('button', { name: 'Square root' }))
+    key('Backspace'); expect(input()).toHaveValue('sqrt')
+    key('Escape'); expect(input()).toHaveValue('')
+  })
+  it('continues a result with powers or percent, and starts fresh with square root', async () => {
+    calculateMock.mockResolvedValue(8)
+    render(<App />); enterExpression('2^3'); submit()
+    await waitFor(() => expect(screen.getByLabelText('Result')).toHaveTextContent('8'))
+    key('^'); key('2'); expect(input()).toHaveValue('8^2'); submit()
+    await waitFor(() => expect(screen.getByRole('status', { name: 'Calculation status' })).toHaveTextContent('Calculated'))
+    key('%'); expect(input()).toHaveValue('8%'); submit()
+    await waitFor(() => expect(screen.getByRole('status', { name: 'Calculation status' })).toHaveTextContent('Calculated'))
+    fireEvent.click(screen.getByRole('button', { name: 'Square root' }))
+    expect(input()).toHaveValue('sqrt(')
+  })
+  it('groups a negative backend result when it becomes a power base', async () => {
+    calculateMock.mockResolvedValueOnce(-2).mockResolvedValueOnce(4)
+    render(<App />); enterExpression('1-3'); submit()
+    await waitFor(() => expect(screen.getByLabelText('Result')).toHaveTextContent('-2'))
+    fireEvent.click(screen.getByRole('button', { name: 'Power' })); key('2')
+    expect(input()).toHaveValue('(-2)^2')
+    submit()
+    await waitFor(() => expect(screen.getByLabelText('Result')).toHaveTextContent('4'))
+    expect(calculateMock).toHaveBeenLastCalledWith('(-2)^2', expect.any(AbortSignal))
   })
   it('submits through the boundary and shows the returned value without evaluating locally', async () => {
     calculateMock.mockResolvedValue(123.456)

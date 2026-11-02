@@ -10,7 +10,19 @@ The following goal was supplied verbatim (the `/goal` command introduced it):
 
 The complete, original implementation instruction is preserved verbatim in [docs/MASTER_PROMPT.md](docs/MASTER_PROMPT.md), copied from the supplied text attachment. It includes the functional contract, architecture, testing, correction workflow, senior-review instructions, publication boundaries, and definition of done. It is the actual prompt, not a reconstructed summary.
 
-No additional user correction prompts or separate AI reviewer prompts were used during this implementation. The agent reviewed its own code under the master prompt's Phase 6 directive; no independent reviewer is claimed. User preferences required responses in the user's language; application text and repository documentation follow the master prompt's English requirement.
+During the initial implementation, no additional user correction prompts or separate AI reviewer prompts were used. The agent reviewed its own code under the master prompt's Phase 6 directive. User preferences required responses in the user's language; application text and repository documentation follow the master prompt's English requirement.
+
+## Final improvements — actual follow-up instructions
+
+The exact received implementation prompt for the update is preserved in [docs/FINAL_IMPROVEMENTS_PROMPT.md](docs/FINAL_IMPROVEMENTS_PROMPT.md). It requires the two targeted fixes, powers, square roots, contextual percentages and two-service Docker Compose. Earlier genuine prompts above remain unchanged.
+
+The accompanying user message was:
+
+> puedes leer el TECHNICAL.REVIEW.md pera comprobar el R01 Y R02 y puede hacer mencion tecnica de estas correciones cuando lo menciones en el README.md describiendo loo que estas corrigiendo no hace falta meter la review en la entrega a git
+
+The private audit was consulted only to verify the two concrete defect descriptions. Its prompt, report, score, reviewer transcript and unrelated evaluation material are excluded from this deliverable at the owner's direction. README documentation explains the actual test-comparison and focus-spacing changes without incorporating that audit.
+
+The update extends the existing Go parser with powers, grouping, square roots and a direct-percentage operand marker; React inserts syntax and displays backend results. Tests cover the comparison helper itself, all requested acceptance examples, domains, recursion limits and UI regressions. Docker files are checked statically; container execution remains unverified because Docker is unavailable. Current measured evidence is recorded in the coverage/validation documents, not inferred from the historical assessment.
 
 ## Actions performed (summary, not prompts)
 

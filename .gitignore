@@ -10,3 +10,5 @@ coverage.html
 !.env.example
 test-results/
 playwright-report/
+TECHNICAL_REVIEW.md
+TECHNICAL.REVIEW.md

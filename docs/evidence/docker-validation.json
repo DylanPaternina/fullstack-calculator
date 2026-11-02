@@ -1,0 +1,9 @@
+{
+  "yamlSyntax": "PASS",
+  "officialComposeSchema": "PASS",
+  "services": 2,
+  "pathsPortsProxyConsistency": "PASS",
+  "dockerBuild": "NOT RUN",
+  "dockerRuntime": "PENDING",
+  "nginxSyntaxTest": "NOT RUN (nginx executable unavailable)"
+}

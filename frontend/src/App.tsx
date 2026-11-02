@@ -2,6 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { calculate } from './api'
 
 const MAX_LENGTH = 1024
+const advancedKeys = [
+  { value: '(', label: '(', name: 'Open parenthesis' },
+  { value: ')', label: ')', name: 'Close parenthesis' },
+  { value: '^', label: 'xʸ', name: 'Power' },
+  { value: 'sqrt(', label: '√', name: 'Square root' },
+  { value: '%', label: '%', name: 'Percentage' },
+]
 const keys = [
   { value: 'clear', label: 'AC', name: 'Clear', kind: 'utility' },
   { value: 'delete', label: '⌫', name: 'Delete last character', kind: 'utility' },
@@ -44,7 +51,7 @@ export default function App() {
       if (target instanceof HTMLElement && (target.isContentEditable || target.closest('input, textarea, select, a, [contenteditable]'))) return
       // Enter calculates within the keypad; unrelated buttons retain activation.
       if (event.key === 'Enter' && target instanceof HTMLButtonElement && !target.closest('.calculator')) return
-      if (/^[0-9+*/.=-]$/.test(event.key) || ['Enter', 'Escape', 'Backspace'].includes(event.key)) {
+      if (/^[0-9+*/.=%^()sqrt-]$/.test(event.key) || ['Enter', 'Escape', 'Backspace'].includes(event.key)) {
         event.preventDefault()
         keyboard.current(event.key)
       }
@@ -106,7 +113,12 @@ export default function App() {
     if (key === 'clear' || key === 'Escape') { edit(''); return }
     if (key === 'delete' || key === 'Backspace') { edit(expression.slice(0, -1)); return }
     // Chaining uses the full backend value, never the rounded presentation.
-    const base = completed.current ? (/^[+*/-]$/.test(key) && result !== null ? String(result) : '') : expression
+    let base = expression
+    if (completed.current) {
+      base = /^[+*/^%-]$/.test(key) && result !== null ? String(result) : ''
+      // A negative returned value is the entire base, not unary minus outside ^.
+      if (key === '^' && result !== null && result < 0) base = `(${base})`
+    }
     edit(base + key)
   }
 
@@ -142,6 +154,13 @@ export default function App() {
               {loading ? 'Calculating…' : result === null ? 'Ready when you are' : 'Calculated'}
             </p>
           </div>
+          <div className="advanced-keys">
+            {advancedKeys.map(key => (
+              <button key={key.value} type="button" className="operator" aria-label={key.name} onClick={() => press(key.value)}>
+                {key.label}
+              </button>
+            ))}
+          </div>
           <div className="keypad">
             {keys.map(key => (
               <button
@@ -156,7 +175,7 @@ export default function App() {
         </section>
         <p id="input-help" className="help">Type an expression or use the keys above.<br /><kbd>Enter</kbd> calculate <span>·</span> <kbd>Esc</kbd> clear <span>·</span> <kbd>⌫</kbd> delete</p>
       </section>
-      <footer>Four operations. Endless possibilities.</footer>
+      <footer>A little tool for bigger possibilities.</footer>
     </main>
   )
 }
