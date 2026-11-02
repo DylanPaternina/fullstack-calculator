@@ -1,0 +1,14 @@
+calculator/cmd/server/main.go:12:		main		0.0%
+calculator/internal/api/api.go:14:		writeJSON	100.0%
+calculator/internal/api/api.go:22:		fail		100.0%
+calculator/internal/api/api.go:29:		NewHandler	97.2%
+calculator/internal/evaluator/evaluator.go:19:	Error		100.0%
+calculator/internal/evaluator/evaluator.go:21:	invalid		100.0%
+calculator/internal/evaluator/evaluator.go:24:	overflow	100.0%
+calculator/internal/evaluator/evaluator.go:31:	Evaluate	100.0%
+calculator/internal/evaluator/evaluator.go:52:	space		100.0%
+calculator/internal/evaluator/evaluator.go:57:	expression	100.0%
+calculator/internal/evaluator/evaluator.go:84:	term		100.0%
+calculator/internal/evaluator/evaluator.go:114:	digit		100.0%
+calculator/internal/evaluator/evaluator.go:116:	number		100.0%
+total:						(statements)	94.8%

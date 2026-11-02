@@ -1,0 +1,41 @@
+:root { font-family: 'Segoe UI', system-ui, sans-serif; color: #193d35; background: #f3f3eb; font-synthesis: none; text-rendering: optimizeLegibility; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 280px; }
+main { min-height: 100svh; padding: 30px 40px 22px; display: flex; flex-direction: column; }
+.page-heading { display: flex; align-items: center; gap: 10px; font-size: 10px; font-weight: 700; letter-spacing: .18em; }
+.brand-mark { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #193d35; color: #f5f5ec; font-size: 24px; line-height: 1; }
+.workspace { width: min(100%, 380px); margin: auto; padding: 30px 0; }
+.intro { margin-bottom: 26px; }
+.eyebrow { font-size: 10px; letter-spacing: .2em; font-weight: 700; color: #5c6c61; margin: 0 0 9px; }
+h1 { font-size: clamp(36px, 6vw, 46px); line-height: 1.15; letter-spacing: -.055em; font-weight: 550; margin: 0 0 10px; }
+h1 span { color: #9b571d; }
+.intro > p:last-child { color: #5d6b63; font-size: 14px; margin: 0; }
+.calculator { background: #fffef7; padding: 16px; border: 1px solid #d9ded2; border-radius: 23px; box-shadow: 0 12px 32px #253e3010; }
+.display { background: #e7ecdf; border: 1px solid #dce3d3; border-radius: 13px; padding: 19px 18px 12px; }
+label { font-size: 9px; font-weight: 700; letter-spacing: .17em; color: #53634e; }
+input { width: 100%; display: block; font: 400 23px/1.5 'Segoe UI', sans-serif; color: #344c39; text-align: right; background: transparent; border: 0; border-radius: 3px; padding: 10px 0 3px; }
+input::placeholder { color: #64745e; }
+.result-line { display: flex; align-items: center; gap: 8px; min-height: 58px; }
+.result-line > span { font-size: 22px; color: #68795f; }
+output { flex: 1; min-width: 0; overflow-wrap: anywhere; text-align: right; font-size: clamp(25px, 7vw, 36px); font-weight: 600; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.status { margin: 8px 0 0; min-height: 15px; text-align: right; color: #526249; font-size: 10px; }
+.keypad { margin-top: 14px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+button { appearance: none; cursor: pointer; min-height: 58px; padding: 8px; background: #f2f2ea; border: 1px solid #e9e9df; border-radius: 11px; color: #243f35; font: 500 22px/1.2 'Segoe UI', sans-serif; transition: background .12s; }
+button:hover { background: #e3e8da; }
+button:active { transform: translateY(1px); }
+button:focus-visible, input:focus-visible { outline: 3px solid #9b571d; outline-offset: 3px; }
+.utility { color: #596752; font-size: 16px; background: #e8ecdf; }
+.operator { background: #e1e9d9; color: #244d33; font-size: 25px; }
+.equals { grid-row: span 2; background: #193d35; color: #fffef7; border-color: #193d35; font-size: 30px; }
+.equals:hover { background: #2d5a4b; }
+.equals:disabled { opacity: .6; cursor: wait; }
+.zero { grid-column: span 2; text-align: left; padding-left: 29px; }
+.feedback { min-height: 28px; padding: 0 3px; }
+.feedback p { margin: 10px 0 0; font-size: 12px; line-height: 1.5; color: #9b341d; overflow-wrap: anywhere; }
+.feedback p:empty { margin: 0; }
+.help { color: #5c6b5f; font-size: 11px; line-height: 2; text-align: center; margin: 19px 0 0; }
+kbd { font: inherit; font-weight: 600; }
+.help span { margin: 0 6px; }
+footer { text-align: center; font-size: 10px; color: #65715f; letter-spacing: .025em; }
+@media (max-width: 480px) { main { padding: 20px 18px; } .workspace { padding: 25px 0; } .intro { margin-bottom: 20px; } }
+@media (prefers-reduced-motion: reduce) { button { transition: none; } }

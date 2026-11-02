@@ -1,0 +1,12 @@
+.tools/
+node_modules/
+dist/
+coverage/
+coverage.out
+coverage.html
+*.exe
+*.log
+.env*
+!.env.example
+test-results/
+playwright-report/

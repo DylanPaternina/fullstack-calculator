@@ -1,0 +1,157 @@
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import App from './App'
+import { calculate } from './api'
+
+vi.mock('./api', () => ({ calculate: vi.fn() }))
+const calculateMock = vi.mocked(calculate)
+const input = () => screen.getByRole('textbox', { name: 'EXPRESSION' })
+const key = (value: string) => fireEvent.keyDown(window, { key: value })
+const enterExpression = (expression: string) => fireEvent.change(input(), { target: { value: expression } })
+const submit = () => fireEvent.click(screen.getByRole('button', { name: 'Calculate' }))
+
+beforeEach(() => { calculateMock.mockReset(); calculateMock.mockResolvedValue(11) })
+afterEach(() => vi.useRealTimers())
+
+describe('Calculator interaction', () => {
+  it('renders a classic calculator with a separate expression and result', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { name: 'Calculator.' })).toBeVisible()
+    expect(input()).toHaveValue('')
+    expect(screen.getByLabelText('Result')).toHaveTextContent('—')
+    expect(screen.getAllByRole('button')).toHaveLength(18)
+  })
+  it('constructs expressions with numeric, decimal and every operator button', async () => {
+    render(<App />)
+    const user = userEvent.setup()
+    for (const name of ['5', 'Decimal point', '3', 'Add', '2', 'Subtract', '1', 'Multiply', '4', 'Divide', '2']) {
+      await user.click(screen.getByRole('button', { name }))
+    }
+    expect(input()).toHaveValue('5.3+2-1*4/2')
+    expect(calculateMock).not.toHaveBeenCalled()
+  })
+  it('submits through the boundary and shows the returned value without evaluating locally', async () => {
+    calculateMock.mockResolvedValue(123.456)
+    render(<App />)
+    enterExpression('5+3*2'); submit()
+    await waitFor(() => expect(screen.getByLabelText('Result')).toHaveTextContent('123.456'))
+    expect(calculateMock).toHaveBeenCalledWith('5+3*2', expect.any(AbortSignal))
+    expect(input()).toHaveValue('5+3*2')
+  })
+  it('supports physical keyboard input, delete, clear and equals', async () => {
+    render(<App />)
+    for (const character of '-3.5+2*/1') key(character)
+    expect(input()).toHaveValue('-3.5+2*/1')
+    key('Backspace'); expect(input()).toHaveValue('-3.5+2*/')
+    key('Escape'); expect(input()).toHaveValue('')
+    key('5'); key('=')
+    await waitFor(() => expect(calculateMock).toHaveBeenCalledTimes(1))
+  })
+  it('handles button delete and clear', () => {
+    render(<App />); enterExpression('123')
+    fireEvent.click(screen.getByRole('button', { name: 'Delete last character' }))
+    expect(input()).toHaveValue('12')
+    fireEvent.click(screen.getByRole('button', { name: 'Clear' }))
+    expect(input()).toHaveValue('')
+  })
+  it('submits and clears from the editable expression field', async () => {
+    render(<App />); enterExpression('5+3*2')
+    fireEvent.keyDown(input(), { key: 'Enter' })
+    await waitFor(() => expect(calculateMock).toHaveBeenCalledTimes(1))
+    fireEvent.keyDown(input(), { key: 'Escape' })
+    expect(input()).toHaveValue('')
+  })
+  it('leaves typing, modifiers and unrelated interactive fields alone', () => {
+    render(<><App /><input aria-label="Other field" /><a href="#other">Other</a><button>Other button</button><div contentEditable aria-label="Editor" /></>)
+    fireEvent.keyDown(input(), { key: '2' })
+    fireEvent.keyDown(screen.getByLabelText('Other field'), { key: '2' })
+    fireEvent.keyDown(screen.getByRole('link'), { key: 'Enter' })
+    fireEvent.keyDown(screen.getByLabelText('Editor'), { key: '5' })
+    fireEvent.keyDown(window, { key: '5', ctrlKey: true })
+    key('x')
+    fireEvent.keyDown(screen.getByRole('button', { name: 'Other button' }), { key: 'Enter' })
+    expect(input()).toHaveValue('')
+    expect(calculateMock).not.toHaveBeenCalled()
+  })
+  it('Enter calculates after a keypad button has focus', async () => {
+    render(<App />)
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: '5' }))
+    await user.keyboard('{Enter}')
+    await waitFor(() => expect(calculateMock).toHaveBeenCalledWith('5', expect.any(AbortSignal)))
+    expect(input()).toHaveValue('5')
+  })
+  it('validates empty and excessively long input', () => {
+    render(<App />); submit()
+    expect(screen.getByRole('alert')).toHaveTextContent('Enter an expression first')
+    enterExpression('1'.repeat(1025))
+    expect(screen.getByRole('alert')).toHaveTextContent('at most 1024')
+    expect(calculateMock).not.toHaveBeenCalled()
+  })
+  it('prevents duplicate submissions while pending', async () => {
+    let resolve: (value: number) => void = () => {}
+    calculateMock.mockReturnValue(new Promise<number>(done => { resolve = done }))
+    render(<App />); enterExpression('5+3*2'); submit(); key('Enter'); key('=')
+    expect(screen.getByRole('status', { name: 'Calculation status' })).toHaveTextContent('Calculating…')
+    expect(screen.getByRole('button', { name: 'Calculate' })).toBeDisabled()
+    expect(calculateMock).toHaveBeenCalledTimes(1)
+    await act(async () => resolve(11))
+    expect(screen.getByRole('button', { name: 'Calculate' })).toBeEnabled()
+  })
+  it('ignores outdated success and failure after edits and new submissions', async () => {
+    let oldResolve: (value: number) => void = () => {}
+    let oldReject: (reason: Error) => void = () => {}
+    calculateMock.mockReturnValueOnce(new Promise<number>(done => { oldResolve = done }))
+    render(<App />); enterExpression('1'); submit()
+    const oldSignal = calculateMock.mock.calls[0]?.[1]
+    enterExpression('2'); submit()
+    await waitFor(() => expect(screen.getByLabelText('Result')).toHaveTextContent('11'))
+    await act(async () => oldResolve(999))
+    expect(oldSignal?.aborted).toBe(true)
+    expect(screen.getByLabelText('Result')).toHaveTextContent('11')
+    calculateMock.mockReturnValueOnce(new Promise<number>((_, reject) => { oldReject = reject }))
+    enterExpression('3'); submit(); key('Escape')
+    await act(async () => oldReject(new Error('Old error')))
+    expect(screen.getByRole('alert')).toBeEmptyDOMElement()
+    expect(input()).toHaveValue('')
+  })
+  it('recovers from backend or network errors', async () => {
+    calculateMock.mockRejectedValueOnce(new Error('Cannot divide by zero'))
+    render(<App />); enterExpression('5/0'); submit()
+    await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent('Cannot divide by zero'))
+    expect(input()).toHaveAttribute('aria-invalid', 'true')
+    key('Backspace'); key('2'); submit()
+    await waitFor(() => expect(screen.getByLabelText('Result')).toHaveTextContent('11'))
+    expect(screen.getByRole('alert')).toBeEmptyDOMElement()
+  })
+  it('handles an unexpected rejection value', async () => {
+    calculateMock.mockRejectedValueOnce('unexpected')
+    render(<App />); enterExpression('2'); submit()
+    await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent('The calculation failed'))
+  })
+  it('chains using the full result while rounding only the display', async () => {
+    calculateMock.mockResolvedValue(0.30000000000000004)
+    render(<App />); enterExpression('0.1+0.2'); submit()
+    await waitFor(() => expect(screen.getByLabelText('Result')).toHaveTextContent('0.3'))
+    key('*'); key('2'); expect(input()).toHaveValue('0.30000000000000004*2')
+    submit(); await waitFor(() => expect(screen.getByRole('status', { name: 'Calculation status' })).toHaveTextContent('Calculated'))
+    key('7'); expect(input()).toHaveValue('7')
+  })
+  it('times out, cancels, and ignores a late result', async () => {
+    vi.useFakeTimers()
+    let resolve: (value: number) => void = () => {}
+    calculateMock.mockReturnValue(new Promise<number>(done => { resolve = done }))
+    render(<App />); enterExpression('2'); submit()
+    await act(async () => { vi.advanceTimersByTime(10_000) })
+    expect(screen.getByRole('alert')).toHaveTextContent('timed out')
+    expect(calculateMock.mock.calls[0]?.[1].aborted).toBe(true)
+    await act(async () => resolve(99))
+    expect(screen.getByLabelText('Result')).toHaveTextContent('—')
+  })
+  it('cancels requests on unmount', () => {
+    calculateMock.mockReturnValue(new Promise<number>(() => {}))
+    const { unmount } = render(<App />); enterExpression('2'); submit(); unmount()
+    expect(calculateMock.mock.calls[0]?.[1].aborted).toBe(true)
+  })
+})
